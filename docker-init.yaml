@@ -1,0 +1,29 @@
+#cloud-config
+
+# Requirements: cloud-init, systemctl
+
+package_update: true
+
+# Add groups to the system
+groups:
+  - docker
+
+runcmd:
+    - [ sh, -c, 'curl -sSL https://get.docker.com/ | sh' ]
+    - [ sh, -c, 'sudo curl -L https://github.com/docker/compose/releases/download/$(curl -s https://api.github.com/repos/docker/compose/releases/latest | grep "tag_name" | cut -d \" -f4)/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose' ]
+    - [ sh, -c, 'sudo chmod +x /usr/local/bin/docker-compose' ]
+    - [ sh, -c, 'sudo systemctl enable docker' ]
+    - [ sh, -c, 'sudo usermod -aG docker talend' ]
+    - [ sh, -c, 'sudo chown root:docker /var/run/docker.sock' ]
+    - [ sh, -c, 'sudo systemctl restart docker' ]
+
+system_info:
+  default_user:
+   name: tgourdel
+   home: /home/tgourdel
+   shell: /bin/bash
+   lock_passwd: true
+   gecos: tgourdel
+   groups: [adm, audio, cdrom, dialout, floppy, video, plugdev, dip, netdev]
+
+final_message: "The system is finally up at $TIMESTAMP, after $UPTIME seconds"
