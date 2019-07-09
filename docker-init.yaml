@@ -13,7 +13,7 @@ runcmd:
     - [ sh, -c, 'sudo curl -L https://github.com/docker/compose/releases/download/$(curl -s https://api.github.com/repos/docker/compose/releases/latest | grep "tag_name" | cut -d \" -f4)/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose' ]
     - [ sh, -c, 'sudo chmod +x /usr/local/bin/docker-compose' ]
     - [ sh, -c, 'sudo systemctl enable docker' ]
-    - [ sh, -c, 'sudo usermod -aG docker talend' ]
+    - [ sh, -c, 'sudo usermod -aG docker tgourdel' ]
     - [ sh, -c, 'sudo chown root:docker /var/run/docker.sock' ]
     - [ sh, -c, 'sudo systemctl restart docker' ]
 
